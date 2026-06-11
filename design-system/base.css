@@ -1,0 +1,377 @@
+/* ==========================================================================
+   PAPER SKETCH DESIGN SYSTEM — BASE
+   Camada 2: reset, texturas de papel, tipografia global e utilitários.
+   Requer: tokens.css + filtros SVG (#hand-drawn-subtle, #hand-drawn,
+   #hand-drawn-heavy) injetados no DOM. Veja filters.html / DESIGN-SYSTEM.md.
+   ========================================================================== */
+
+/* ------------------------------------------------------------------
+   RESET
+   ------------------------------------------------------------------ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  transition: background-color var(--transition-theme), color var(--transition-theme);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ------------------------------------------------------------------
+   TEXTURA DE PAPEL
+   ::before = grade/pauta do papel  |  ::after = ruído de fibra
+   ------------------------------------------------------------------ */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-below);
+  pointer-events: none;
+  /* layer própria no compositor: evita re-rasterização em faixas no scroll */
+  will-change: transform;
+  transition: background var(--transition-theme);
+  /* Grade quadriculada (temas graph, blueprint, dark) */
+  background-image:
+    linear-gradient(var(--paper-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--paper-line) 1px, transparent 1px);
+  background-size: 26px 26px;
+}
+
+[data-theme='blueprint'] body::before,
+body[data-theme='blueprint']::before {
+  background-size: 28px 28px;
+}
+
+/* Ruído de fibra de papel */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--z-below) + 1);
+  pointer-events: none;
+  will-change: transform;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+[data-theme='blueprint'] body::after,
+body[data-theme='blueprint']::after {
+  opacity: 0.07;
+}
+
+/* ------------------------------------------------------------------
+   TIPOGRAFIA GLOBAL
+   ------------------------------------------------------------------ */
+/* Hierarquia de headings: cada nível tem assinatura própria, não só tamanho.
+   h1 tinta forte · h2 marcador embutido · h3 caneta na margem
+   h4 anotação manuscrita · h5 etiqueta · h6 metadado mono */
+h1, h2, h3, h4, h5, h6 {
+  line-height: var(--leading-tight);
+  margin: 0 0 var(--space-4) 0;
+  font-weight: bold;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+}
+
+h1 {
+  font-size: var(--text-3xl);
+  letter-spacing: var(--tracking-tight);
+}
+
+/* h2 — título de seção: sublinhado de marcador na cor accent */
+h2 {
+  font-size: var(--text-2xl);
+  position: relative;
+  width: fit-content;
+  max-width: 100%;
+  padding-bottom: var(--space-2);
+}
+
+h2::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 5px;
+  background-color: var(--accent);
+  border-radius: var(--radius-highlight);
+  filter: url(#hand-drawn-heavy);
+  transform: rotate(-0.5deg);
+}
+
+/* h3 — traço de caneta na margem esquerda (anotação de caderno) */
+h3 {
+  font-size: var(--text-xl);
+  padding-left: var(--space-3);
+  border-left: 5px solid var(--accent);
+  filter: url(#hand-drawn-subtle);
+}
+
+/* h4 — anotação manuscrita (muda a fonte, não só o tamanho) */
+h4 {
+  font-family: var(--font-accent);
+  font-size: var(--text-lg);
+  letter-spacing: 0.5px;
+}
+
+/* h5 — etiqueta/overline */
+h5 {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--ink-soft);
+}
+
+/* h6 — metadado técnico (mono, o lado "digital") */
+h6 {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--ink-soft);
+}
+
+p {
+  margin: 0 0 var(--space-4) 0;
+}
+
+small, .text-soft {
+  color: var(--ink-soft);
+}
+
+strong {
+  font-weight: bold;
+}
+
+/* Links com sublinhado rabiscado animado */
+a {
+  color: var(--ink);
+  text-decoration: none;
+  position: relative;
+}
+
+a:not(.btn):not(.no-underline) {
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-size: 0% 2px;
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  transition: background-size var(--transition-base);
+}
+
+a:not(.btn):not(.no-underline):hover {
+  background-size: 100% 2px;
+}
+
+/* Código: a única coisa "digital" no papel */
+code, pre {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+}
+
+code {
+  background-color: var(--hover-wash);
+  padding: 2px 6px;
+  border-radius: var(--radius-wobbly-xs);
+  border: 1px solid var(--paper-line);
+}
+
+pre {
+  background-color: var(--surface);
+  border: var(--border-width-thin) solid var(--ink);
+  border-radius: var(--radius-wobbly-sm);
+  filter: url(#hand-drawn-subtle);
+  padding: var(--space-4);
+  overflow-x: auto;
+  box-shadow: var(--shadow-sketch-sm);
+}
+
+pre code {
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+/* Citação como nota de margem */
+blockquote {
+  font-family: var(--font-accent);
+  font-size: var(--text-md);
+  color: var(--ink-soft);
+  border-left: var(--border-width) solid var(--accent);
+  margin: var(--space-6) 0;
+  padding: var(--space-2) var(--space-5);
+  filter: url(#hand-drawn-subtle);
+}
+
+hr {
+  border: none;
+  border-top: var(--border-width) dashed var(--ink);
+  opacity: 0.6;
+  margin: var(--space-10) 0;
+  filter: url(#hand-drawn-subtle);
+}
+
+/* Seleção de texto = marca-texto */
+::selection {
+  background-color: var(--highlight);
+  color: var(--ink);
+}
+
+/* Foco acessível com estilo de caneta */
+:focus-visible {
+  outline: var(--border-width-thin) dashed var(--accent);
+  outline-offset: 3px;
+}
+
+/* ------------------------------------------------------------------
+   UTILITÁRIOS DO ESTILO
+   ------------------------------------------------------------------ */
+
+/* Borda wobbly padrão (elementos médios/grandes) */
+.wobbly {
+  border: var(--border-width) solid var(--ink);
+  border-radius: var(--radius-wobbly);
+  filter: url(#hand-drawn);
+  transition: transform var(--transition-base), border-color var(--transition-theme);
+}
+
+/* Borda wobbly sutil (elementos pequenos: tags, inputs, ícones) */
+.wobbly-subtle {
+  border: var(--border-width-thin) solid var(--ink);
+  border-radius: var(--radius-wobbly-sm);
+  filter: url(#hand-drawn-subtle);
+}
+
+/* Vibração de rabisco no hover (para elementos interativos) */
+@keyframes scribble-vibe {
+  0% { transform: translate(0, 0) rotate(0.3deg); }
+  100% { transform: translate(1px, -1px) rotate(-0.3deg); }
+}
+
+.scribble-hover:hover {
+  animation: scribble-vibe 0.15s infinite alternate;
+}
+
+/* Marca-texto atrás de palavras-chave */
+.highlight {
+  position: relative;
+  display: inline-block;
+  z-index: 1;
+}
+
+.highlight::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: -8px;
+  right: -8px;
+  height: 40%;
+  background-color: var(--highlight);
+  z-index: -1;
+  transform: rotate(-1deg);
+  border-radius: var(--radius-highlight);
+  /* sem filter url(): o Safari calcula errado a região de filtros SVG em
+     elementos grandes e espalha o amarelo pelo fundo (manchas intermitentes) */
+}
+
+.highlight--animated::after {
+  animation: scribble-vibe 0.2s infinite alternate;
+}
+
+/* Sublinhado de pincel sob títulos de seção */
+.underline-sketch {
+  position: relative;
+  display: inline-block;
+  padding-bottom: var(--space-2);
+}
+
+.underline-sketch::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 4px;
+  background-color: var(--accent);
+  border-radius: var(--radius-highlight);
+  filter: url(#hand-drawn-heavy);
+  transform: rotate(-0.5deg);
+}
+
+/* Fita adesiva (para cards/fotos "coladas" no papel) */
+.tape::before {
+  content: '';
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-2deg);
+  width: 90px;
+  height: 26px;
+  background-color: var(--highlight);
+  opacity: 0.8;
+  border-left: 1px dashed rgba(0, 0, 0, 0.12);
+  border-right: 1px dashed rgba(0, 0, 0, 0.12);
+  z-index: 2;
+}
+
+/* Rotações de "colado à mão" */
+.tilt-left { transform: rotate(-1.5deg); }
+.tilt-right { transform: rotate(1.5deg); }
+
+/* Ícones com traço de lápis (ex.: Lucide) */
+.sketchy-icon {
+  stroke: var(--ink);
+  stroke-width: 2;
+  filter: url(#hand-drawn-subtle);
+}
+
+/* Linhas de esqueleto (placeholders de wireframe) */
+.sketch-line {
+  height: 4px;
+  background-color: var(--ink-soft);
+  opacity: 0.5;
+  border-radius: 2px;
+}
+
+.sketch-line--long { width: 100%; }
+.sketch-line--short { width: 60%; }
+
+/* Container padrão */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding-left: var(--container-pad);
+  padding-right: var(--container-pad);
+}
+
+.container--narrow {
+  max-width: var(--container-narrow);
+}
+
+/* ------------------------------------------------------------------
+   ACESSIBILIDADE: respeitar usuários sensíveis a movimento
+   ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

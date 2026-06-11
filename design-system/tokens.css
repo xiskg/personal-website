@@ -1,0 +1,147 @@
+/* ==========================================================================
+   PAPER SKETCH DESIGN SYSTEM — TOKENS
+   Camada 1: variáveis. Nenhum seletor visual aqui, só definições.
+   ========================================================================== */
+
+:root {
+  /* ------------------------------------------------------------------
+     TIPOGRAFIA
+     ------------------------------------------------------------------ */
+  --font-display: 'Architects Daughter', cursive, sans-serif; /* títulos, logo */
+  --font-body: 'Patrick Hand', cursive, sans-serif;           /* texto corrido */
+  --font-accent: 'Gochi Hand', cursive, sans-serif;           /* anotações, doodles */
+  --font-mono: 'Fira Code', 'Courier New', monospace;         /* código */
+
+  /* Escala tipográfica (base 1rem = 16px, razão ~1.25) */
+  --text-xs: 0.8rem;
+  --text-sm: 0.95rem;
+  --text-base: 1.125rem;   /* fontes manuscritas pedem corpo maior */
+  --text-md: 1.3rem;
+  --text-lg: 1.6rem;
+  --text-xl: 2rem;
+  --text-2xl: 2.6rem;
+  --text-3xl: 3.2rem;
+  --text-hero: clamp(2.2rem, 5vw + 1rem, 3.6rem);
+
+  --leading-tight: 1.15;
+  --leading-snug: 1.35;
+  --leading-normal: 1.55;
+
+  --tracking-tight: -1px;
+  --tracking-normal: 0;
+
+  /* ------------------------------------------------------------------
+     ESPAÇAMENTO (base 4px)
+     ------------------------------------------------------------------ */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+
+  /* Layout */
+  --container-max: 1200px;
+  --container-narrow: 800px;
+  --container-pad: 20px;
+  --header-height: 70px;
+
+  /* ------------------------------------------------------------------
+     BORDAS WOBBLY (o coração do estilo)
+     border-radius assimétrico que simula traço à mão.
+     Combine com filter: url(#hand-drawn-*) para o efeito completo.
+     ------------------------------------------------------------------ */
+  --border-width: 3px;
+  --border-width-thin: 2px;
+
+  --radius-wobbly: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  --radius-wobbly-sm: 120px 10px 110px 10px / 10px 110px 10px 120px;
+  --radius-wobbly-xs: 60px 8px 50px 8px / 8px 50px 8px 60px;
+  --radius-highlight: 8px 4px 8px 4px / 4px 8px 4px 8px;
+  --radius-round: 50%;
+
+  /* ------------------------------------------------------------------
+     SOMBRAS "LÁPIS" (offset duro, sem blur — parecem desenhadas)
+     Usam --ink, então acompanham o tema automaticamente.
+     ------------------------------------------------------------------ */
+  --shadow-sketch-xs: 2px 2px 0 var(--ink);
+  --shadow-sketch-sm: 3px 3px 0 var(--ink);
+  --shadow-sketch-md: 4px 4px 0 var(--ink);
+  --shadow-sketch-lg: 6px 7px 0 var(--ink);
+  --shadow-sketch-hover: 5px 5px 0 var(--ink);
+  --shadow-sketch-pressed: 1px 1px 0 var(--ink);
+  --shadow-inset-paper: inset 1px 2px 4px rgba(0, 0, 0, 0.05);
+
+  /* ------------------------------------------------------------------
+     MOVIMENTO
+     ------------------------------------------------------------------ */
+  --transition-fast: 0.1s ease;
+  --transition-base: 0.2s ease;
+  --transition-theme: 0.3s ease;
+
+  /* ------------------------------------------------------------------
+     Z-INDEX
+     ------------------------------------------------------------------ */
+  --z-below: -10;
+  --z-base: 10;
+  --z-overlay: 100;
+  --z-nav: 150;
+  --z-modal: 200;
+  --z-toast: 300;
+}
+
+/* ==========================================================================
+   TEMAS — cores semânticas
+   Aplicar via data-theme no <html> ou <body>. Default: graph.
+
+   --paper        fundo da página
+   --ink          traço principal (texto, bordas, sombras)
+   --ink-soft     traço secundário (texto de apoio)
+   --paper-line   linhas do papel (grade/pauta)
+   --paper-margin linha de margem do caderno
+   --accent       cor de destaque (usar com parcimônia!)
+   --highlight    marca-texto
+   --surface      fundo de cards/superfícies elevadas
+   --hover-wash   lavagem de hover
+   ========================================================================== */
+
+/* Tema claro: Graph Paper (creme quadriculado) — DEFAULT */
+:root,
+[data-theme='graph'] {
+  --paper: #fcfaf2;
+  --ink: #2e354f;
+  --ink-soft: #5f6682;
+  --paper-line: rgba(65, 105, 225, 0.12);
+  --paper-margin: rgba(255, 71, 87, 0.25);
+  --accent: #e84118;
+  --highlight: rgba(255, 235, 59, 0.45);
+  --surface: rgba(255, 255, 255, 0.88);
+  --hover-wash: rgba(46, 53, 79, 0.06);
+}
+
+/* Tema escuro: Blueprint (azul de prancheta) */
+[data-theme='blueprint'] {
+  --paper: #0b3c73;
+  --ink: #ffffff;
+  --ink-soft: #a2c4ec;
+  --paper-line: rgba(255, 255, 255, 0.15);
+  --paper-margin: rgba(255, 255, 255, 0.25);
+  --accent: #00d2d3;
+  --highlight: rgba(10, 189, 227, 0.35);
+  --surface: rgba(255, 255, 255, 0.06);
+  --hover-wash: rgba(255, 255, 255, 0.12);
+}
+
+/* Cores funcionais (canetas coloridas — iguais em todos os temas) */
+:root {
+  --pen-red: #ff4757;
+  --pen-green: #2ed573;
+  --pen-blue: #1e90ff;
+  --pen-yellow: #ffeb3b;
+}

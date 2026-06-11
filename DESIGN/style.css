@@ -1,0 +1,975 @@
+/* ==========================================================================
+   INTERACTIVE PAPER WIREFRAME STYLESHEET
+   ========================================================================== */
+
+:root {
+  --transition-speed: 0.3s;
+  --panel-width: 320px;
+  --header-height: 70px;
+}
+
+/* Theme 1: Graph Paper (Warm Cream) */
+.theme-graph {
+  --bg-color: #fcfaf2;
+  --pencil-color: #2e354f;
+  --pencil-secondary: #5f6682;
+  --paper-line-color: rgba(65, 105, 225, 0.12);
+  --paper-margin-color: rgba(255, 71, 87, 0.25);
+  --accent-color: #e84118;
+  --highlight-color: rgba(255, 235, 59, 0.45);
+  --card-bg: rgba(255, 255, 255, 0.88);
+  --button-hover-bg: rgba(46, 53, 79, 0.06);
+  --canvas-pen-color: #2e354f;
+}
+
+/* Theme 2: Yellow Lined Notepad */
+.theme-notepad {
+  --bg-color: #fdf5c4;
+  --pencil-color: #1b263b;
+  --pencil-secondary: #415a77;
+  --paper-line-color: rgba(33, 150, 243, 0.18);
+  --paper-margin-color: rgba(244, 67, 54, 0.35);
+  --accent-color: #d63031;
+  --highlight-color: rgba(76, 209, 55, 0.3);
+  --card-bg: rgba(255, 255, 255, 0.7);
+  --button-hover-bg: rgba(27, 38, 59, 0.08);
+  --canvas-pen-color: #1b263b;
+}
+
+/* Theme 3: Blueprint (Drafting Blue) */
+.theme-blueprint {
+  --bg-color: #0b3c73;
+  --pencil-color: #ffffff;
+  --pencil-secondary: #a2c4ec;
+  --paper-line-color: rgba(255, 255, 255, 0.15);
+  --paper-margin-color: rgba(255, 255, 255, 0.25);
+  --accent-color: #00d2d3;
+  --highlight-color: rgba(10, 189, 227, 0.35);
+  --card-bg: rgba(255, 255, 255, 0.06);
+  --button-hover-bg: rgba(255, 255, 255, 0.12);
+  --canvas-pen-color: #ffffff;
+}
+
+/* Theme 4: Dark Charcoal Sketchbook */
+.theme-dark {
+  --bg-color: #1e1e24;
+  --pencil-color: #e2e8f0;
+  --pencil-secondary: #94a3b8;
+  --paper-line-color: rgba(255, 255, 255, 0.04);
+  --paper-margin-color: rgba(255, 255, 255, 0.08);
+  --accent-color: #ff7675;
+  --highlight-color: rgba(253, 203, 110, 0.25);
+  --card-bg: rgba(255, 255, 255, 0.04);
+  --button-hover-bg: rgba(255, 255, 255, 0.07);
+  --canvas-pen-color: #e2e8f0;
+}
+
+/* Typography Overrides */
+.font-architects { font-family: 'Architects Daughter', cursive, sans-serif; }
+.font-patrick { font-family: 'Patrick Hand', cursive, sans-serif; }
+.font-gochi { font-family: 'Gochi Hand', cursive, sans-serif; }
+
+/* ==========================================================================
+   BASE STYLES
+   ========================================================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-color);
+  color: var(--pencil-color);
+  min-height: 100vh;
+  position: relative;
+  transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease;
+  overflow-x: hidden;
+}
+
+/* Paper Textures using pseudo-elements */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -10;
+  pointer-events: none;
+  transition: background var(--transition-speed) ease;
+}
+
+/* Apply Grid/Lines based on theme */
+.theme-graph::before {
+  background-image: 
+    linear-gradient(var(--paper-line-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--paper-line-color) 1px, transparent 1px);
+  background-size: 26px 26px;
+}
+
+.theme-notepad::before {
+  background-image: 
+    linear-gradient(90deg, transparent 89px, var(--paper-margin-color) 90px, var(--paper-margin-color) 92px, transparent 93px),
+    linear-gradient(var(--paper-line-color) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 28px;
+}
+
+.theme-blueprint::before {
+  background-image: 
+    linear-gradient(var(--paper-line-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--paper-line-color) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.theme-dark::before {
+  background-image: 
+    linear-gradient(var(--paper-line-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--paper-line-color) 1px, transparent 1px);
+  background-size: 30px 30px;
+}
+
+/* Simple paper page noise effect */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -9;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3 PreservingAspectRatio='none'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+.theme-blueprint::after {
+  opacity: 0.07; /* brighter noise for blueprint */
+}
+
+/* ==========================================================================
+   WOBBLY BORDER SYSTEM & DECORATIONS
+   ========================================================================== */
+
+.wobbly-border {
+  border: 3px solid var(--pencil-color);
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+  filter: url(#hand-drawn);
+  transition: transform 0.2s ease, border-color var(--transition-speed) ease;
+}
+
+/* Subtle border wobble for smaller elements */
+.wobbly-border-subtle {
+  border: 2px solid var(--pencil-color);
+  border-radius: 120px 10px 110px 10px/10px 110px 10px 120px;
+  filter: url(#hand-drawn-subtle);
+}
+
+/* Scribble vibration on hover */
+@keyframes scribble-vibe {
+  0% { transform: translate(0, 0) rotate(0.3deg); }
+  100% { transform: translate(1px, -1px) rotate(-0.3deg); }
+}
+
+.wobbly-border:hover {
+  animation: scribble-vibe 0.15s infinite alternate;
+}
+
+/* Disable scribble animation on input fields or static controls */
+input.wobbly-border:hover, 
+aside.wobbly-border:hover, 
+header.wobbly-border:hover {
+  animation: none;
+}
+
+/* ==========================================================================
+   NAVIGATION HEADER
+   ========================================================================== */
+
+.main-header {
+  position: sticky;
+  top: 15px;
+  left: 20px;
+  right: 20px;
+  margin: 15px 20px;
+  background-color: var(--card-bg);
+  z-index: 150;
+  backdrop-filter: blur(2px);
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 24px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.6rem;
+  font-weight: bold;
+}
+
+.logo span span {
+  color: var(--accent-color);
+  text-decoration: underline;
+}
+
+.sketchy-icon {
+  width: 24px;
+  height: 24px;
+  stroke: var(--pencil-color);
+  stroke-width: 2;
+  filter: url(#hand-drawn-subtle);
+}
+
+.nav-links {
+  display: flex;
+  gap: 24px;
+}
+
+.nav-link {
+  color: var(--pencil-color);
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 500;
+  position: relative;
+  padding: 4px 8px;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--accent-color);
+  transition: width 0.2s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+.header-actions {
+  display: flex;
+  gap: 12px;
+}
+
+/* ==========================================================================
+   BUTTONS
+   ========================================================================== */
+
+.btn {
+  background: transparent;
+  color: var(--pencil-color);
+  cursor: pointer;
+  padding: 8px 16px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: 3px solid var(--pencil-color);
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+  filter: url(#hand-drawn-subtle);
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background var(--transition-speed);
+  font-family: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 3px 3px 0 var(--pencil-color);
+  user-select: none;
+}
+
+.btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 var(--pencil-color);
+  background-color: var(--button-hover-bg);
+}
+
+.btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--pencil-color);
+}
+
+.btn-primary {
+  background-color: var(--pencil-color);
+  color: var(--bg-color);
+}
+
+.btn-primary:hover {
+  background-color: transparent;
+  color: var(--pencil-color);
+  /* Hand-drawn pencil shading hover effect */
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--button-hover-bg) 0px,
+    var(--button-hover-bg) 4px,
+    var(--pencil-color) 4px,
+    var(--pencil-color) 6px
+  );
+}
+
+.btn-secondary {
+  background-color: transparent;
+}
+
+.btn-large {
+  padding: 12px 28px;
+  font-size: 1.2rem;
+}
+
+/* ==========================================================================
+   FLOATING CONTROL PANEL
+   ========================================================================== */
+
+.control-panel {
+  position: fixed;
+  bottom: 25px;
+  left: 25px;
+  width: var(--panel-width);
+  background-color: var(--card-bg);
+  padding: 18px;
+  z-index: 150;
+  box-shadow: 5px 6px 0 var(--pencil-color);
+  backdrop-filter: blur(2px);
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.panel-section {
+  margin-bottom: 18px;
+  border-bottom: 2px dashed var(--paper-line-color);
+  padding-bottom: 12px;
+}
+
+.panel-section:last-child {
+  margin-bottom: 0;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.panel-section h3 {
+  margin: 0 0 10px 0;
+  font-size: 1.15rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.section-desc {
+  font-size: 0.85rem;
+  margin: -6px 0 10px 0;
+  color: var(--pencil-secondary);
+}
+
+/* Buttons Grid inside Panel */
+.theme-buttons, 
+.layout-buttons, 
+.font-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+.theme-buttons {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.theme-buttons button, 
+.layout-buttons button, 
+.font-buttons button,
+.btn-tool {
+  background: transparent;
+  border: 2px solid var(--pencil-color);
+  border-radius: 120px 8px 110px 8px/8px 110px 8px 120px;
+  filter: url(#hand-drawn-subtle);
+  color: var(--pencil-color);
+  padding: 5px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+
+.theme-buttons button:hover, 
+.layout-buttons button:hover, 
+.font-buttons button:hover,
+.btn-tool:hover {
+  background-color: var(--button-hover-bg);
+  transform: scale(1.05);
+}
+
+.theme-buttons button.active, 
+.layout-buttons button.active, 
+.font-buttons button.active,
+.btn-tool.active {
+  background-color: var(--pencil-color);
+  color: var(--bg-color);
+}
+
+/* Drawing Canvas controls */
+.toggle-sketch-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.toggle-label {
+  font-weight: bold;
+  font-size: 0.95rem;
+}
+
+/* Custom switch slider styling */
+.switch-container {
+  position: relative;
+  display: inline-block;
+  width: 46px;
+  height: 24px;
+}
+
+.switch-container input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: transparent;
+  transition: .3s;
+  border: 2px solid var(--pencil-color);
+}
+
+.slider::before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  bottom: 3px;
+  background-color: var(--pencil-color);
+  transition: .3s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: var(--accent-color);
+}
+
+input:checked + .slider::before {
+  transform: translateX(22px);
+  background-color: var(--bg-color);
+}
+
+/* Drawing Tools specific */
+.drawing-tools {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.btn-tool {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-clear {
+  margin-left: auto;
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+}
+
+.btn-clear:hover {
+  background-color: var(--accent-color);
+  color: var(--bg-color) !important;
+}
+
+.color-picker-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tool-label {
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.color-options {
+  display: flex;
+  gap: 8px;
+}
+
+.color-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--pencil-color);
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+
+.color-dot:hover {
+  transform: scale(1.2);
+}
+
+.color-dot.active {
+  box-shadow: 0 0 0 2px var(--bg-color), 0 0 0 4px var(--accent-color);
+  transform: scale(1.1);
+}
+
+/* ==========================================================================
+   SKETCH CANVAS OVERLAY
+   ========================================================================== */
+
+#sketch-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 100;
+  background: transparent;
+  transition: opacity 0.2s ease;
+}
+
+body.sketching-active #sketch-canvas {
+  pointer-events: auto;
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z'%3E%3C/path%3E%3C/svg%3E") 0 24, auto;
+}
+
+body.sketching-active.theme-blueprint #sketch-canvas {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z'%3E%3C/path%3E%3C/svg%3E") 0 24, auto;
+}
+
+/* ==========================================================================
+   WORKSPACE & HERO LAYOUT
+   ========================================================================== */
+
+.workspace-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 20px 100px 20px;
+  z-index: 10;
+  position: relative;
+}
+
+/* Hero Section Base */
+.hero-section {
+  padding: 40px 0;
+}
+
+.hero-grid {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+  transition: flex-direction 0.3s ease;
+}
+
+/* Layout variations */
+.layout-right .hero-grid {
+  flex-direction: row;
+}
+
+.layout-left .hero-grid {
+  flex-direction: row-reverse;
+}
+
+.layout-center .hero-grid {
+  flex-direction: column;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.hero-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.layout-center .hero-content {
+  align-items: center;
+}
+
+.hero-visual {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* Subtitle Badge */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--card-bg);
+  padding: 6px 14px;
+  font-size: 0.95rem;
+  font-weight: bold;
+  width: max-content;
+  color: var(--pencil-secondary);
+  box-shadow: 2px 2px 0 var(--pencil-color);
+}
+
+.badge-text {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Hero Title with highlighted yellow underlines */
+.hero-title {
+  font-size: 3.2rem;
+  line-height: 1.15;
+  margin: 0;
+  font-weight: bold;
+  letter-spacing: -1px;
+}
+
+.highlight {
+  position: relative;
+  display: inline-block;
+  z-index: 1;
+}
+
+.highlight::after {
+  content: "";
+  position: absolute;
+  bottom: 0px;
+  left: -8px;
+  right: -8px;
+  height: 40%;
+  background-color: var(--highlight-color);
+  z-index: -1;
+  transform: rotate(-1deg);
+  border-radius: 8px 4px 8px 4px/4px 8px 4px 8px;
+  filter: url(#hand-drawn-heavy);
+  animation: scribble-vibe 0.2s infinite alternate;
+}
+
+.hero-description {
+  font-size: 1.3rem;
+  line-height: 1.5;
+  margin: 0;
+  color: var(--pencil-secondary);
+}
+
+/* CTA Form */
+.cta-form {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+  width: 100%;
+  max-width: 550px;
+}
+
+.layout-center .cta-form {
+  justify-content: center;
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  background-color: var(--card-bg);
+  padding: 8px 16px;
+  flex-grow: 1;
+  gap: 8px;
+  box-shadow: inset 1px 2px 4px rgba(0,0,0,0.05);
+}
+
+.input-wrapper input {
+  border: none;
+  background: transparent;
+  color: var(--pencil-color);
+  font-size: 1.1rem;
+  font-family: inherit;
+  width: 100%;
+  outline: none;
+}
+
+.input-wrapper input::placeholder {
+  color: var(--pencil-secondary);
+  opacity: 0.65;
+}
+
+.input-icon {
+  width: 20px;
+  height: 20px;
+  stroke: var(--pencil-secondary);
+}
+
+/* Features checklist bottom */
+.features-list {
+  display: flex;
+  gap: 20px;
+  font-size: 0.95rem;
+  color: var(--pencil-secondary);
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.feature-icon {
+  width: 16px;
+  height: 16px;
+  stroke: var(--accent-color);
+  stroke-width: 3;
+}
+
+/* ==========================================================================
+   WIREFRAME CONTAINER (THE HERO VISUAL CARD)
+   ========================================================================== */
+
+.wireframe-image-box {
+  width: 100%;
+  max-width: 500px;
+  aspect-ratio: 4/3;
+  background-color: var(--card-bg);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 6px 7px 0 var(--pencil-color);
+  overflow: hidden;
+}
+
+/* Diagonal crossing lines representing image placeholder in wireframes */
+.diagonal-lines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  stroke: var(--paper-line-color);
+  stroke-width: 1.5;
+  filter: url(#hand-drawn-subtle);
+}
+
+.image-box-content {
+  text-align: center;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px;
+}
+
+.visual-card-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  background-color: var(--bg-color);
+  box-shadow: 2px 2px 0 var(--pencil-color);
+}
+
+.sketchy-image-icon {
+  width: 32px;
+  height: 32px;
+  stroke: var(--pencil-color);
+}
+
+.placeholder-label {
+  font-size: 1.25rem;
+  font-weight: bold;
+  display: block;
+}
+
+.placeholder-sublabel {
+  font-size: 0.95rem;
+  color: var(--pencil-secondary);
+  margin-top: 4px;
+  margin-bottom: 0;
+}
+
+/* Mini Mockup components inside the wireframe image */
+.floating-sketch-card {
+  position: absolute;
+  background-color: var(--bg-color);
+  padding: 10px;
+  box-shadow: 3px 3px 0 var(--pencil-color);
+  transition: transform 0.2s ease;
+  z-index: 10;
+}
+
+.floating-sketch-card:hover {
+  transform: translateY(-4px) rotate(1deg);
+}
+
+.card-1 {
+  bottom: 20px;
+  left: 20px;
+  width: 160px;
+}
+
+.card-2 {
+  top: 25px;
+  right: 20px;
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.card-header-sketch {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.avatar-sketch {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--pencil-color);
+  background-color: var(--paper-line-color);
+}
+
+.title-sketch-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex-grow: 1;
+}
+
+.sketch-line {
+  height: 4px;
+  background-color: var(--pencil-secondary);
+  opacity: 0.5;
+  border-radius: 2px;
+}
+
+.sketch-line.long { width: 100%; }
+.sketch-line.short { width: 60%; }
+.sketch-line.full { 
+  width: 100%; 
+  margin-top: 4px;
+}
+
+.graph-card-icon {
+  width: 24px;
+  height: 24px;
+  stroke: var(--accent-color);
+  stroke-width: 2.5;
+}
+
+/* ==========================================================================
+   STATS FOOTER SECTION
+   ========================================================================== */
+
+.stats-section {
+  margin-top: 60px;
+  border-top: 3px dashed var(--pencil-color);
+  padding-top: 40px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.stat-card {
+  background-color: var(--card-bg);
+  padding: 20px;
+  text-align: center;
+  box-shadow: 4px 4px 0 var(--pencil-color);
+}
+
+.stat-num {
+  font-size: 2.6rem;
+  font-weight: bold;
+  color: var(--accent-color);
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 1.1rem;
+  margin-top: 6px;
+  color: var(--pencil-secondary);
+}
+
+/* ==========================================================================
+   RESPONSIVE OVERRIDES
+   ========================================================================== */
+
+@media (max-width: 992px) {
+  .hero-grid {
+    flex-direction: column !important;
+    text-align: center;
+  }
+  
+  .hero-content {
+    align-items: center;
+  }
+  
+  .cta-form {
+    justify-content: center;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .control-panel {
+    position: static;
+    width: 100%;
+    margin-top: 40px;
+    box-shadow: 4px 4px 0 var(--pencil-color);
+  }
+}
+
+@media (max-width: 600px) {
+  .hero-title {
+    font-size: 2.2rem;
+  }
+  
+  .main-header {
+    margin: 10px;
+  }
+  
+  .header-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .nav-links {
+    margin: 10px 0;
+  }
+  
+  .cta-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .btn-large {
+    width: 100%;
+    justify-content: center;
+  }
+}

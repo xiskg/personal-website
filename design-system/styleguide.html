@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="graph">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paper Sketch — Visual System</title>
+  <link rel="stylesheet" href="index.css">
+  <style>
+    /* Estilos exclusivos do styleguide (não fazem parte do sistema) */
+    .sg-section { margin-bottom: var(--space-20); }
+    .sg-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: var(--space-5); }
+    .sg-row { display: flex; flex-wrap: wrap; gap: var(--space-4); align-items: center; }
+    .sg-col { display: flex; flex-direction: column; gap: var(--space-4); }
+    .sg-swatch { height: 70px; border: var(--border-width-thin) solid var(--ink); border-radius: var(--radius-wobbly-sm); filter: url(#hand-drawn-subtle); margin-bottom: var(--space-2); }
+    .sg-label { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--ink-soft); }
+    .sg-theme-bar { position: fixed; bottom: 20px; right: 20px; z-index: var(--z-nav); background: var(--surface); padding: var(--space-3); display: flex; gap: var(--space-2); backdrop-filter: blur(2px); box-shadow: var(--shadow-sketch-md); }
+  </style>
+</head>
+<body>
+
+  <!-- Filtros SVG obrigatórios (conteúdo de filters.svg) -->
+  <svg style="position: absolute; width: 0; height: 0;" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs>
+      <filter id="hand-drawn-subtle" x="-5%" y="-5%" width="110%" height="110%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" result="noise" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="2" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+      <filter id="hand-drawn" x="-10%" y="-10%" width="120%" height="120%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="3" result="noise" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="4.5" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+      <filter id="hand-drawn-heavy" x="-10%" y="-10%" width="120%" height="120%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.025" numOctaves="4" result="noise" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="7" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+    </defs>
+  </svg>
+
+  <!-- Seletor de tema -->
+  <div class="sg-theme-bar wobbly">
+    <button class="btn btn--sm" data-set-theme="graph">Graph</button>
+    <button class="btn btn--sm" data-set-theme="blueprint">Blueprint</button>
+  </div>
+
+  <!-- Nav de exemplo -->
+  <header class="nav-header">
+    <div class="nav-header__inner">
+      <div class="nav-logo">✏️ paper.<span class="accent">sketch</span></div>
+      <nav class="nav-links">
+        <a href="#tipografia" class="nav-link">Tipografia</a>
+        <a href="#cores" class="nav-link">Cores</a>
+        <a href="#componentes" class="nav-link">Componentes</a>
+      </nav>
+      <div class="sg-row">
+        <button class="btn btn--secondary scribble-hover">Login</button>
+        <button class="btn btn--primary scribble-hover">Sign Up</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="padding-top: var(--space-16); padding-bottom: var(--space-24);">
+
+    <!-- HERO do styleguide -->
+    <section class="sg-section" style="text-align:center;">
+      <span class="badge">⚡ Visual System v1.0</span>
+      <h1 style="font-size: var(--text-hero); margin-top: var(--space-4);">
+        Paper Sketch <span class="highlight highlight--animated">Design System</span>
+      </h1>
+      <p class="text-soft" style="font-size: var(--text-md); max-width: 600px; margin: 0 auto;">
+        Tudo desenhado à mão em papel digital: bordas wobbly, sombras de lápis,
+        marca-texto e 4 temas de caderno.
+      </p>
+    </section>
+
+    <!-- TIPOGRAFIA -->
+    <section class="sg-section" id="tipografia">
+      <div class="section-header">
+        <span class="section-header__kicker">§ 01 — fundações</span>
+        <h2 class="section-header__title">Tipografia</h2>
+      </div>
+      <div class="sg-col">
+        <h1>Heading 1 — tinta forte, abre a página</h1>
+        <h2>Heading 2 — marcador embutido</h2>
+        <h3>Heading 3 — caneta na margem</h3>
+        <h4>Heading 4 — anotação manuscrita</h4>
+        <h5>Heading 5 — etiqueta de seção</h5>
+        <h6>heading-6 — metadado_mono</h6>
+        <p>Body — Patrick Hand. Texto corrido legível com cara de caderno. Suporta <strong>negrito</strong>, <a href="#">links com sublinhado animado</a> e <code>código inline</code>.</p>
+        <p style="font-family: var(--font-accent); font-size: var(--text-md);">Accent — Gochi Hand, para anotações de margem e doodles ✎</p>
+        <blockquote>"Citação como nota de margem, com traço de caneta na lateral."</blockquote>
+        <pre><code>// Fira Code — o único elemento "digital" no papel
+const stack = ['react', 'vite', 'css'];</code></pre>
+      </div>
+    </section>
+
+    <!-- CORES -->
+    <section class="sg-section" id="cores">
+      <div class="section-header">
+        <span class="section-header__kicker">§ 02 — fundações</span>
+        <h2 class="section-header__title">Cores semânticas</h2>
+      </div>
+      <p class="text-soft">Troque o tema (canto inferior direito) — todos os tokens se adaptam.</p>
+      <div class="sg-grid">
+        <div><div class="sg-swatch" style="background: var(--paper);"></div><span class="sg-label">--paper</span></div>
+        <div><div class="sg-swatch" style="background: var(--ink);"></div><span class="sg-label">--ink</span></div>
+        <div><div class="sg-swatch" style="background: var(--ink-soft);"></div><span class="sg-label">--ink-soft</span></div>
+        <div><div class="sg-swatch" style="background: var(--accent);"></div><span class="sg-label">--accent</span></div>
+        <div><div class="sg-swatch" style="background: var(--highlight);"></div><span class="sg-label">--highlight</span></div>
+        <div><div class="sg-swatch" style="background: var(--surface);"></div><span class="sg-label">--surface</span></div>
+        <div><div class="sg-swatch" style="background: var(--paper-line);"></div><span class="sg-label">--paper-line</span></div>
+        <div><div class="sg-swatch" style="background: var(--pen-red);"></div><span class="sg-label">--pen-red</span></div>
+        <div><div class="sg-swatch" style="background: var(--pen-green);"></div><span class="sg-label">--pen-green</span></div>
+        <div><div class="sg-swatch" style="background: var(--pen-blue);"></div><span class="sg-label">--pen-blue</span></div>
+      </div>
+    </section>
+
+    <!-- BOTÕES -->
+    <section class="sg-section" id="componentes">
+      <div class="section-header">
+        <span class="section-header__kicker">§ 03 — componentes</span>
+        <h2 class="section-header__title">Botões</h2>
+      </div>
+      <div class="sg-row">
+        <button class="btn btn--primary scribble-hover">Primary</button>
+        <button class="btn btn--secondary scribble-hover">Secondary</button>
+        <button class="btn btn--accent scribble-hover">Accent</button>
+        <button class="btn btn--ghost">Ghost</button>
+        <button class="btn btn--icon scribble-hover">✎</button>
+      </div>
+      <div class="sg-row" style="margin-top: var(--space-4);">
+        <button class="btn btn--primary btn--sm">Small</button>
+        <button class="btn btn--primary">Base</button>
+        <button class="btn btn--primary btn--lg scribble-hover">Large →</button>
+      </div>
+    </section>
+
+    <!-- BADGES & TAGS -->
+    <section class="sg-section">
+      <div class="section-header">
+        <span class="section-header__kicker">§ 04 — componentes</span>
+        <h2 class="section-header__title">Badges & Tags</h2>
+      </div>
+      <div class="sg-row">
+        <span class="badge">✨ Disponível para freela</span>
+        <span class="tag">React</span>
+        <span class="tag">TypeScript</span>
+        <span class="tag tag--accent">Node.js</span>
+        <span class="tag tag--filled">CSS</span>
+      </div>
+    </section>
+
+    <!-- CARDS -->
+    <section class="sg-section">
+      <div class="section-header">
+        <span class="section-header__kicker">§ 05 — componentes</span>
+        <h2 class="section-header__title">Cards</h2>
+      </div>
+      <div class="sg-grid" style="grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); align-items: start;">
+
+        <!-- Project card -->
+        <article class="card card--hoverable project-card">
+          <div class="project-card__thumb">
+            <svg class="diagonals" viewBox="0 0 100 100" preserveAspectRatio="none">
+              <line x1="0" y1="0" x2="100" y2="100" /><line x1="100" y1="0" x2="0" y2="100" />
+            </svg>
+            <span class="text-soft">[ screenshot do projeto ]</span>
+          </div>
+          <h3 class="project-card__title">Nome do Projeto</h3>
+          <p class="project-card__desc">Descrição curta do projeto, o problema que resolve e o resultado.</p>
+          <div class="sg-row">
+            <span class="tag">React</span><span class="tag">Vite</span>
+          </div>
+          <div class="project-card__footer">
+            <a href="#" class="no-underline btn btn--sm btn--secondary">Demo ↗</a>
+            <a href="#" class="no-underline btn btn--sm btn--ghost">Código</a>
+          </div>
+        </article>
+
+        <!-- Stat cards -->
+        <div class="sg-col">
+          <div class="stat-card">
+            <div class="stat-card__num">24+</div>
+            <div class="stat-card__label">Projetos entregues</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__num">5 anos</div>
+            <div class="stat-card__label">de experiência</div>
+          </div>
+        </div>
+
+        <!-- Sticky note + card com fita -->
+        <div class="sg-col" style="align-items: center; padding-top: var(--space-4);">
+          <div class="sticky-note">lembrete: este post-it gruda em qualquer seção! 📌</div>
+          <div class="card tape tilt-right" style="max-width: 240px; text-align: center;">
+            <p style="margin:0;">Card com <strong>fita adesiva</strong> e leve rotação.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FORMULÁRIO -->
+    <section class="sg-section">
+      <div class="section-header">
+        <span class="section-header__kicker">§ 06 — componentes</span>
+        <h2 class="section-header__title">Formulários</h2>
+      </div>
+      <div class="sg-col" style="max-width: 480px;">
+        <div>
+          <label class="field-label" for="sg-email">Seu e-mail</label>
+          <div class="input-wrapper">
+            <span class="input-icon">✉</span>
+            <input id="sg-email" type="email" placeholder="voce@exemplo.com">
+          </div>
+        </div>
+        <div>
+          <label class="field-label" for="sg-msg">Mensagem</label>
+          <div class="input-wrapper">
+            <textarea id="sg-msg" rows="3" placeholder="Escreva aqui..."></textarea>
+          </div>
+        </div>
+        <div class="sg-row">
+          <label class="switch">
+            <input type="checkbox" checked>
+            <span class="switch__slider"></span>
+          </label>
+          <span>Aceito receber novidades</span>
+          <button class="btn btn--primary scribble-hover" style="margin-left:auto;">Enviar →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TIMELINE + SKILLS -->
+    <section class="sg-section">
+      <div class="section-header">
+        <span class="section-header__kicker">§ 07 — componentes</span>
+        <h2 class="section-header__title">Timeline & Skills</h2>
+      </div>
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-12);">
+        <ul class="timeline">
+          <li class="timeline__item timeline__item--current">
+            <span class="timeline__date">2024 — agora</span>
+            <h4 class="timeline__title">Dev Front-end Sênior</h4>
+            <p class="timeline__desc">Empresa Tal — liderando o redesign do produto.</p>
+          </li>
+          <li class="timeline__item">
+            <span class="timeline__date">2022 — 2024</span>
+            <h4 class="timeline__title">Dev Front-end Pleno</h4>
+            <p class="timeline__desc">Outra Empresa — apps React em produção.</p>
+          </li>
+          <li class="timeline__item">
+            <span class="timeline__date">2021</span>
+            <h4 class="timeline__title">Primeiro freela</h4>
+            <p class="timeline__desc">Onde tudo começou.</p>
+          </li>
+        </ul>
+        <div>
+          <div class="skill-meter">
+            <div class="skill-meter__label"><span>React</span><span class="text-soft">90%</span></div>
+            <div class="skill-meter__track"><div class="skill-meter__fill" style="width:90%"></div></div>
+          </div>
+          <div class="skill-meter">
+            <div class="skill-meter__label"><span>TypeScript</span><span class="text-soft">80%</span></div>
+            <div class="skill-meter__track"><div class="skill-meter__fill" style="width:80%"></div></div>
+          </div>
+          <div class="skill-meter">
+            <div class="skill-meter__label"><span>CSS / Design</span><span class="text-soft">85%</span></div>
+            <div class="skill-meter__track"><div class="skill-meter__fill" style="width:85%"></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DETALHES -->
+    <section class="sg-section">
+      <div class="section-header">
+        <span class="section-header__kicker">§ 08 — detalhes</span>
+        <h2 class="section-header__title">Toques finais</h2>
+      </div>
+      <div class="sg-row" style="gap: var(--space-8); align-items: center;">
+        <div class="avatar avatar--lg" style="display:flex; align-items:center; justify-content:center; font-size:2rem;">🙂</div>
+        <button class="btn btn--secondary tooltip" data-tip="Anotação à mão!">Hover: tooltip</button>
+        <p style="margin:0;">Texto com <span class="highlight">marca-texto</span> e seleção
+          <span class="text-soft">(selecione qualquer texto da página)</span>.</p>
+      </div>
+      <hr>
+      <footer class="footer" style="margin-top:0; border-top:none;">
+        <div class="footer__social">
+          <button class="btn btn--icon scribble-hover">in</button>
+          <button class="btn btn--icon scribble-hover">gh</button>
+          <button class="btn btn--icon scribble-hover">✉</button>
+        </div>
+        <p style="margin:0;">Feito à mão, com régua quebrada — © 2026</p>
+      </footer>
+    </section>
+
+  </main>
+
+  <script>
+    document.querySelectorAll('[data-set-theme]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.documentElement.setAttribute('data-theme', btn.dataset.setTheme);
+      });
+    });
+  </script>
+</body>
+</html>

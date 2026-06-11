@@ -1,0 +1,68 @@
+/* Entry de estilos do app: Tailwind v4 + Paper Sketch Design System */
+@import 'tailwindcss';
+
+/* Na layer `components` para que as utilities do Tailwind (layer posterior)
+   possam sobrescrever classes do design system quando combinadas. */
+@import '../../design-system/tokens.css';
+@import '../../design-system/base.css' layer(components);
+@import '../../design-system/components.css' layer(components);
+
+/* Tokens do sistema expostos como utilities Tailwind (bg-paper, text-ink…) */
+@theme inline {
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-soft: var(--ink-soft);
+  --color-accent: var(--accent);
+  --color-surface: var(--surface);
+  --color-wash: var(--hover-wash);
+  --color-line: var(--paper-line);
+}
+
+/* View Transition (troca de tema com reveal circular) */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* Prosa dos cases (HTML vindo do CMS) */
+.case-prose {
+  max-width: 65ch;
+}
+.case-prose p {
+  font-size: var(--text-md);
+}
+
+/* h2 sem o sublinhado default — usado quando o componente anima o próprio traço */
+.h2-bare {
+  padding-bottom: 0;
+}
+.h2-bare::after {
+  content: none;
+}
+
+/* Traço de marcador animável (substitui o ::after do h2) */
+.marker-stroke {
+  display: block;
+  height: 5px;
+  background-color: var(--accent);
+  border-radius: var(--radius-highlight);
+  filter: url(#hand-drawn-heavy);
+  transform-origin: left center;
+  rotate: -0.5deg;
+}
+
+/* Marca-texto animável (substitui o ::after do .highlight).
+   Sem filter url(): bug de região de filtro do Safari espalha o amarelo. */
+.marker-highlight {
+  position: absolute;
+  bottom: 0;
+  left: -8px;
+  right: -8px;
+  height: 42%;
+  background-color: var(--highlight);
+  z-index: -1;
+  border-radius: var(--radius-highlight);
+  transform-origin: left center;
+  rotate: -1deg;
+}

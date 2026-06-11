@@ -1,0 +1,10 @@
+/* ==========================================================================
+   PAPER SKETCH DESIGN SYSTEM — entry point
+   Importe este arquivo único no app (ex.: import './design-system/index.css').
+   Lembre-se de injetar os filtros SVG no DOM (veja filters.svg / docs).
+   ========================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Gochi+Hand&family=Patrick+Hand&family=Fira+Code:wght@400;500&display=swap');
+
+@import './tokens.css';
+@import './base.css';
+@import './components.css';

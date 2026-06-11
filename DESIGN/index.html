@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Paper Wireframe - Hero Section</title>
+  <!-- Google Fonts for hand-drawn look -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Gochi+Hand&family=Patrick+Hand&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="theme-graph font-architects layout-right">
+
+  <!-- SVG Filters for Hand-Drawn / Wobbly effect -->
+  <svg style="position: absolute; width: 0; height: 0;" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- Subtle wobbly line filter -->
+      <filter id="hand-drawn-subtle" x="-5%" y="-5%" width="110%" height="110%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" result="noise" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="2" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+      <!-- Medium wobbly line filter -->
+      <filter id="hand-drawn" x="-10%" y="-10%" width="120%" height="120%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="3" result="noise" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="4.5" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+      <!-- Heavy wobbly line filter (for sketches and drawings) -->
+      <filter id="hand-drawn-heavy" x="-10%" y="-10%" width="120%" height="120%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.025" numOctaves="4" result="noise" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="7" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+    </defs>
+  </svg>
+
+  <!-- Sticky Top Bar (Notebook Header) -->
+  <header class="main-header wobbly-border">
+    <div class="header-container">
+      <div class="logo">
+        <i data-lucide="pencil" class="sketchy-icon"></i>
+        <span>wireframe.<span>paper</span></span>
+      </div>
+      <nav class="nav-links">
+        <a href="#features" class="nav-link">Features</a>
+        <a href="#examples" class="nav-link">Templates</a>
+        <a href="#about" class="nav-link">About</a>
+      </nav>
+      <div class="header-actions">
+        <button class="btn btn-secondary wobbly-border">Login</button>
+        <button class="btn btn-primary wobbly-border">Sign Up</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Floating Sketchpad Control Panel -->
+  <aside class="control-panel wobbly-border">
+    <div class="panel-section">
+      <h3><i data-lucide="palette"></i> Paper Theme</h3>
+      <div class="theme-buttons">
+        <button class="btn-theme active" data-theme="theme-graph" title="Graph/Grid Paper">Grid</button>
+        <button class="btn-theme" data-theme="theme-notepad" title="Lined Notepad">Notepad</button>
+        <button class="btn-theme" data-theme="theme-blueprint" title="Blueprint">Blueprint</button>
+        <button class="btn-theme" data-theme="theme-dark" title="Dark Charcoal Sketch">Dark</button>
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <h3><i data-lucide="layout"></i> Hero Layout</h3>
+      <div class="layout-buttons">
+        <button class="btn-layout active" data-layout="layout-right" title="Image Right">Split R</button>
+        <button class="btn-layout" data-layout="layout-left" title="Image Left">Split L</button>
+        <button class="btn-layout" data-layout="layout-center" title="Centered Hero">Center</button>
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <h3><i data-lucide="type"></i> Typography</h3>
+      <div class="font-buttons">
+        <button class="btn-font active" data-font="font-architects" title="Architects Daughter (Drafting)">Drafting</button>
+        <button class="btn-font" data-font="font-patrick" title="Patrick Hand (Handwritten)">Notepad</button>
+        <button class="btn-font" data-font="font-gochi" title="Gochi Hand (Comic)">Comic</button>
+      </div>
+    </div>
+
+    <div class="panel-section canvas-controls">
+      <h3><i data-lucide="pen-tool"></i> Drawing Overlay</h3>
+      <p class="section-desc">Sketch notes directly on the screen!</p>
+      <div class="toggle-sketch-wrapper">
+        <label class="switch-container">
+          <input type="checkbox" id="sketch-mode-toggle">
+          <span class="slider wobbly-border"></span>
+        </label>
+        <span class="toggle-label">Enable Canvas</span>
+      </div>
+      <div class="drawing-tools" style="display: none;">
+        <button class="btn-tool active" id="tool-pencil" title="Pencil"><i data-lucide="pencil"></i></button>
+        <button class="btn-tool" id="tool-highlighter" title="Highlighter"><i data-lucide="highlighter"></i></button>
+        <button class="btn-tool" id="tool-eraser" title="Eraser"><i data-lucide="eraser"></i></button>
+        <button class="btn-tool btn-clear" id="tool-clear" title="Clear Sketch"><i data-lucide="trash-2"></i></button>
+      </div>
+      <div class="color-picker-wrapper" style="display: none;">
+        <span class="tool-label">Color:</span>
+        <div class="color-options">
+          <div class="color-dot active" data-color="pencil" style="background-color: var(--pencil-color);"></div>
+          <div class="color-dot" data-color="#ff4757" style="background-color: #ff4757;"></div>
+          <div class="color-dot" data-color="#2ed573" style="background-color: #2ed573;"></div>
+          <div class="color-dot" data-color="#1e90ff" style="background-color: #1e90ff;"></div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Interactive Sketch Canvas Overlay -->
+  <canvas id="sketch-canvas"></canvas>
+
+  <!-- Main Workspace -->
+  <main class="workspace-container">
+    
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-grid">
+        
+        <!-- Left: Text Content -->
+        <div class="hero-content">
+          <div class="badge wobbly-border">
+            <span class="badge-text"><i data-lucide="sparkles"></i> Simple Wireframe Tool</span>
+          </div>
+          
+          <h1 class="hero-title">
+            Draw your ideas on <span class="highlight">digital paper</span>.
+          </h1>
+          
+          <p class="hero-description">
+            A beautiful, lightweight sketching kit designed to help you quickly wireframe hero sections, headers, cards, and layouts with a gorgeous hand-drawn aesthetic.
+          </p>
+
+          <!-- Input CTA form -->
+          <form class="cta-form" onsubmit="event.preventDefault(); alert('Subscribed (Mockup only)!');">
+            <div class="input-wrapper wobbly-border">
+              <i data-lucide="mail" class="input-icon"></i>
+              <input type="email" placeholder="Type your email..." required>
+            </div>
+            <button type="submit" class="btn btn-primary wobbly-border btn-large">
+              Join the Beta <i data-lucide="arrow-right"></i>
+            </button>
+          </form>
+
+          <!-- Small proof / features badge -->
+          <div class="features-list">
+            <span class="feature-item"><i data-lucide="check" class="feature-icon"></i> 100% Handcrafted</span>
+            <span class="feature-item"><i data-lucide="check" class="feature-icon"></i> Customizable Styles</span>
+            <span class="feature-item"><i data-lucide="check" class="feature-icon"></i> Interactive Canvas</span>
+          </div>
+        </div>
+
+        <!-- Right: Image Placeholder / UI Sketch -->
+        <div class="hero-visual">
+          <div class="wireframe-image-box wobbly-border">
+            <!-- Diagonal wireframe lines -->
+            <svg class="diagonal-lines" viewBox="0 0 100 100" preserveAspectRatio="none">
+              <line x1="0" y1="0" x2="100" y2="100" />
+              <line x1="100" y1="0" x2="0" y2="100" />
+            </svg>
+            
+            <div class="image-box-content">
+              <div class="wobbly-border visual-card-icon">
+                <i data-lucide="image" class="sketchy-image-icon"></i>
+              </div>
+              <span class="placeholder-label">[ Hero Image / Product Demo ]</span>
+              <p class="placeholder-sublabel">Drag elements here or select template</p>
+              
+              <!-- Mini Floating Elements inside mockup -->
+              <div class="floating-sketch-card card-1 wobbly-border">
+                <div class="card-header-sketch">
+                  <div class="avatar-sketch"></div>
+                  <div class="title-sketch-lines">
+                    <div class="sketch-line long"></div>
+                    <div class="sketch-line short"></div>
+                  </div>
+                </div>
+                <div class="sketch-line full"></div>
+                <div class="sketch-line full"></div>
+              </div>
+
+              <div class="floating-sketch-card card-2 wobbly-border">
+                <i data-lucide="trending-up" class="graph-card-icon"></i>
+                <div class="sketch-line short"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Sketchy Stats Section (Optional footer to make it rich) -->
+    <section class="stats-section">
+      <div class="stats-grid">
+        <div class="stat-card wobbly-border">
+          <div class="stat-num">10k+</div>
+          <div class="stat-label">Idea Sketches</div>
+        </div>
+        <div class="stat-card wobbly-border">
+          <div class="stat-num">98%</div>
+          <div class="stat-label">Satisfaction</div>
+        </div>
+        <div class="stat-card wobbly-border">
+          <div class="stat-num">0 lines</div>
+          <div class="stat-label">Boring Code</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- App JavaScript Logic -->
+  <script src="app.js"></script>
+</body>
+</html>
