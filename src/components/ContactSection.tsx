@@ -149,6 +149,7 @@ export function ContactSection() {
                 fontSize: 'var(--text-xl)',
                 rotate: '-2deg',
                 width: 'max-content',
+                maxWidth: '100%',
               }}
             >
               — {profile.name}
@@ -208,6 +209,7 @@ export function ContactSection() {
                 fontSize: 'var(--text-md)',
                 rotate: '-1deg',
                 width: 'max-content',
+                maxWidth: '100%',
               }}
             >
               allergic to buttons? plain old email:
@@ -225,6 +227,7 @@ export function ContactSection() {
                 fontSize: 'var(--text-md)',
                 rotate: '-1deg',
                 width: 'max-content',
+                maxWidth: '100%',
               }}
             >
               what to scribble in it:

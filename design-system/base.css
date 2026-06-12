@@ -14,6 +14,12 @@
   box-sizing: border-box;
 }
 
+html {
+  /* corta estouros horizontais (full-bleed, rotações) sem virar scroll
+     container — preserva position: sticky, ao contrário de overflow: hidden */
+  overflow-x: clip;
+}
+
 body {
   margin: 0;
   padding: 0;

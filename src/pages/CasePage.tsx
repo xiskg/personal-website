@@ -167,6 +167,7 @@ export function CasePage() {
               fontSize: 'var(--text-md)',
               rotate: '-1deg',
               width: 'max-content',
+              maxWidth: '100%',
             }}
           >
             {project.service} · {project.client} · {project.year}
@@ -280,7 +281,7 @@ export function CasePage() {
             </p>
             <p
               className="mt-5 mb-0"
-              style={{ fontFamily: 'var(--font-accent)', color: 'var(--accent)', rotate: '-1deg', width: 'max-content' }}
+              style={{ fontFamily: 'var(--font-accent)', color: 'var(--accent)', rotate: '-1deg', width: 'max-content', maxWidth: '100%' }}
             >
               — {project.testimonialAuthor}
             </p>

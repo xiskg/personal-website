@@ -23,13 +23,13 @@ export function ProcessSection() {
       <PaperReveal>
         <div className="grid items-start gap-8 lg:grid-cols-[260px_1fr]">
           {/* Navegação dos passos */}
-          <div className="flex gap-2 overflow-x-auto pb-2 lg:flex-col lg:overflow-visible lg:pb-0">
+          <div className="grid grid-cols-2 gap-2 lg:flex lg:flex-col">
             {processSteps.map((s, i) => (
               <button
                 key={s.num}
                 onClick={() => setActive(i)}
                 aria-pressed={active === i}
-                className="wobbly-subtle flex shrink-0 cursor-pointer items-baseline gap-3 px-4 py-3 text-left transition-all"
+                className="wobbly-subtle flex cursor-pointer items-baseline gap-3 px-4 py-3 text-left transition-all"
                 style={{
                   backgroundColor: active === i ? 'var(--surface)' : 'transparent',
                   borderColor: active === i ? 'var(--ink)' : 'transparent',
