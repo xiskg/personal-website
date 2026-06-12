@@ -3,6 +3,7 @@ import { AnimatePresence, motion, useMotionValue, useSpring } from 'motion/react
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { projects } from '../data/projects';
+import { sizedImage } from '../lib/img';
 import { springs } from '../lib/motion';
 import { PaperReveal } from './PaperReveal';
 import { SectionHeader } from './SectionHeader';
@@ -159,7 +160,7 @@ export function WorkSection() {
                       >
                         {p.thumbnail ? (
                           <img
-                            src={p.thumbnail}
+                            src={sizedImage(p.thumbnail, 640)}
                             alt={p.thumbnailAlt}
                             loading="lazy"
                             className="h-full w-full object-cover"
@@ -274,7 +275,11 @@ export function WorkSection() {
                 }}
               >
                 {project.thumbnail ? (
-                  <img src={project.thumbnail} alt="" className="h-full w-full object-cover" />
+                  <img
+                    src={sizedImage(project.thumbnail, 640)}
+                    alt=""
+                    className="h-full w-full object-cover"
+                  />
                 ) : (
                   <>
                     <svg

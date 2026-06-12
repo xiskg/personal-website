@@ -1,0 +1,37 @@
+/* Estilos do editor rich-text (/admin). Importado só pelo AdminPage, então
+   fica no chunk dev do admin — fora do CSS global de produção.
+   Sem filter SVG no editor para o texto ficar nítido durante a edição. */
+.rich-editor {
+  border: var(--border-width-thin) solid var(--ink);
+  border-radius: var(--radius-wobbly-sm);
+  background-color: var(--surface);
+  overflow: hidden;
+}
+.rich-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  padding: 6px;
+  border-bottom: var(--border-width-thin) dashed var(--paper-line);
+}
+.rich-editor .ProseMirror {
+  padding: 12px 16px;
+  min-height: 120px;
+  outline: none;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  color: var(--ink);
+}
+.rich-editor .ProseMirror p {
+  margin: 0 0 0.75em;
+}
+.rich-editor .ProseMirror p:last-child {
+  margin-bottom: 0;
+}
+.rich-editor .ProseMirror ul {
+  margin: 0 0 0.75em;
+  padding-left: 1.4em;
+  list-style: disc;
+}

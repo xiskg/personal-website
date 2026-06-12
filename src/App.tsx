@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router';
 import { DrawMode } from './components/DrawMode';
 import { Footer } from './components/Footer';
@@ -9,6 +9,10 @@ import { SketchFilters } from './components/SketchFilters';
 import { useTheme } from './hooks/useTheme';
 import { CasePage } from './pages/CasePage';
 import { HomePage } from './pages/HomePage';
+
+// Painel do CMS carregado sob demanda (dev only): mantém o TipTap e todo o
+// editor fora do bundle principal de produção (vira um chunk separado).
+const AdminPage = lazy(() => import('./admin/AdminPage').then((m) => ({ default: m.AdminPage })));
 
 /** Rola para a âncora do hash (ex.: /#work) ou para o topo a cada rota. */
 function ScrollManager() {
@@ -29,8 +33,22 @@ function ScrollManager() {
 }
 
 export default function App() {
+  const location = useLocation();
   const { theme, setTheme } = useTheme();
   const [drawing, setDrawing] = useState(false);
+
+  // Painel do CMS: só existe em desenvolvimento. Em produção este ramo é
+  // eliminado no build (import.meta.env.DEV → false), saindo do bundle.
+  if (import.meta.env.DEV && location.pathname === '/admin') {
+    return (
+      <div className="relative">
+        <SketchFilters />
+        <Suspense fallback={<div className="container py-10 text-soft">loading editor…</div>}>
+          <AdminPage />
+        </Suspense>
+      </div>
+    );
+  }
 
   return (
     <div className="relative">

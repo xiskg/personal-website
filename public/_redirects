@@ -1,0 +1,4 @@
+# Cloudflare Pages: SPA fallback — rotas (ex. /work/poliana-pionorio) servem
+# o index.html para o React Router resolver. Arquivos reais (/cases/*, assets)
+# são servidos diretamente antes desta regra.
+/*    /index.html    200

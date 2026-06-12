@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { Link, Navigate, useParams } from 'react-router';
 import { PaperReveal } from '../components/PaperReveal';
 import { projects, type Project } from '../data/projects';
+import { sizedImage } from '../lib/img';
 import { springs } from '../lib/motion';
 
 const SECTIONS: { label: string; field: keyof Project }[] = [
@@ -55,16 +56,18 @@ function CaseFigure({
         rotate,
         zIndex: 20,
         transformOrigin: origin,
+        // layer GPU própria: o Safari compõe o scale em vez de re-rasterizar
+        willChange: 'transform',
       }}
       whileHover={{ scale: 1.45, rotate: 0 }}
       transition={springs.sketch}
     >
       <img
-        src={src}
+        src={sizedImage(src, 1024)}
         alt={alt}
         loading="lazy"
         className="aspect-[4/3] w-full object-cover"
-        style={{ border: '2px solid var(--ink)' }}
+        style={{ border: '2px solid var(--ink)', backfaceVisibility: 'hidden' }}
       />
       <figcaption
         className="pt-2 text-center"
@@ -100,8 +103,9 @@ function CaseNavCard({ project, dir }: { project: Project; dir: 'prev' | 'next' 
         }}
       >
         <img
-          src={project.thumbnail}
+          src={sizedImage(project.thumbnail, 320)}
           alt=""
+          loading="lazy"
           className="aspect-[4/3] w-full object-cover"
           style={{ border: '1.5px solid var(--ink)' }}
         />
@@ -188,7 +192,7 @@ export function CasePage() {
           }}
         >
           <img
-            src={project.hero}
+            src={sizedImage(project.hero, 1600)}
             alt={project.heroAlt}
             className="aspect-[16/9] w-full object-cover"
             style={{ border: '2px solid var(--ink)' }}
