@@ -1,0 +1,11 @@
+{
+  // Cloudflare Workers (Static Assets) — deploy do portfólio estático.
+  // O SPA fallback fica aqui: rotas como /work/:slug que não são arquivos
+  // servem o index.html para o React Router resolver (substitui o _redirects).
+  "name": "personal-website",
+  "compatibility_date": "2026-06-12",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "not_found_handling": "single-page-application"
+  }
+}
