@@ -1,10 +1,8 @@
 /// <reference types="vite/client" />
 
 interface ImportMetaEnv {
-  /** Microsoft Clarity project id (heatmaps + session recordings) */
+  /** Override opcional do projeto do Microsoft Clarity (default no código) */
   readonly VITE_CLARITY_ID?: string;
-  /** Cloudflare Web Analytics beacon token */
-  readonly VITE_CF_BEACON_TOKEN?: string;
 }
 
 interface ImportMeta {
