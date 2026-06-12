@@ -5,6 +5,7 @@ import { Footer } from './components/Footer';
 import { Nav } from './components/Nav';
 import { ParallaxDoodles } from './components/ParallaxDoodles';
 import { PencilProgress } from './components/PencilProgress';
+import { Analytics } from './components/Analytics';
 import { SketchFilters } from './components/SketchFilters';
 import { useTheme } from './hooks/useTheme';
 import { CasePage } from './pages/CasePage';
@@ -52,6 +53,7 @@ export default function App() {
 
   return (
     <div className="relative">
+      <Analytics />
       <SketchFilters />
       <ParallaxDoodles />
       <PencilProgress />
