@@ -7,8 +7,7 @@ export const profile = {
   role: 'Senior Brand & Visual Designer',
   location: 'Brazil',
   email: 'joaoadriano.psd@gmail.com',
-  // TODO: confirmar URL real do LinkedIn
-  linkedin: 'https://www.linkedin.com/',
+  linkedin: 'https://www.linkedin.com/in/jojoao/',
   languages: ['Portuguese — native', 'English — fluent', 'Spanish — basic'],
 };
 
