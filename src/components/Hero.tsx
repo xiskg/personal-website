@@ -1,6 +1,6 @@
 import { ArrowDown, MapPin, PencilSimple } from '@phosphor-icons/react';
 import { motion, useReducedMotion } from 'motion/react';
-import portrait from '../assets/portrait-sketch.jpg';
+import portrait from '../assets/portrait-sketch.webp';
 import { profile } from '../data/profile';
 import { durations, springs } from '../lib/motion';
 
@@ -155,6 +155,9 @@ export function Hero({ onPickPencil }: Props) {
             <img
               src={portrait}
               alt={`Hand-drawn pencil portrait of ${profile.name}`}
+              width={640}
+              height={640}
+              fetchPriority="high"
               className="block w-full"
               style={{
                 border: '2px solid var(--ink)',
